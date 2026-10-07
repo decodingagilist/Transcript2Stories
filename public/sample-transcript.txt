@@ -1,0 +1,42 @@
+Loyalty App CRM Kickoff — 8 October 2026
+Participants: Sarah (Product Owner), Marcus (Tech Lead), Priya (Scrum Master), James (Dev), Leila (Dev), Tom (QA)
+
+Sarah: Thanks everyone for joining. Today we're kicking off the Loyalty App CRM integration. Our goal is to build a points-based loyalty system that integrates with the existing CRM so that member activity drives points automatically.
+
+Marcus: From a technical standpoint I see three major areas. First, we need a Member Registration service — sign-up flow, profile management, tier assignment. Second, a Points Engine that listens to CRM events and awards points based on configurable rules. Third, a Rewards Catalogue where members can browse and redeem.
+
+Priya: How big is Member Registration?
+
+Marcus: It's XL — probably 8 points. We have identity verification, duplicate detection, the tier logic (Bronze, Silver, Gold), and we need to sync back to the CRM. I'd put confidence at 0.9.
+
+Sarah: Points Engine is the heart of the system. Members earn points for purchases, referrals, and social actions. The rules engine needs to be configurable without a code deploy. I'd call that an XL too — 8 points — but confidence is lower, maybe 0.75, because the rules DSL is still being designed.
+
+James: Rewards Catalogue feels like an L to me — 5 points. Browse, search, filter by tier. Redemption flow is separate.
+
+Leila: Redemption Flow is M — 3 points. Point deduction, confirmation email, voucher generation. High confidence, 0.85.
+
+Marcus: Important dependency: the Points Engine cannot go live until Member Registration is complete. It needs member IDs and tier data.
+
+Tom: We should also track impediments. We don't have the CRM API credentials yet — that's blocking James and Leila's integration work. Owner is Sarah.
+
+Sarah: Confirmed. I'll chase the CRM vendor today.
+
+Priya: Sprint planning: let's put Member Registration in Sprint 1, Points Engine in Sprint 2, Rewards Catalogue and Redemption Flow in Sprint 3.
+
+Marcus: RACI for Member Registration: Sarah is Accountable, James and Leila are Responsible, Marcus is Consulted, Tom is Informed.
+
+Sarah: For Points Engine: I'm Accountable, Marcus and James Responsible, Priya Consulted, Tom and Leila Informed.
+
+Priya: Any other stories to call out?
+
+Leila: Under Member Registration we need: profile edit page, password reset, email verification. Under Points Engine: transaction history view, points balance widget, admin rules editor. Under Rewards Catalogue: tier-gated rewards display, search/filter, wishlist.
+
+Sarah: Great. Let's also add a Sprint 4 item — Analytics Dashboard. High-level, probably XL, low confidence 0.6 — we haven't scoped it yet. And Sprint 5 for Mobile Push Notifications, M size, medium confidence 0.7.
+
+Priya: Any more impediments?
+
+Marcus: Design tokens from the brand team aren't finalised — that's blocking the UI components. I own that one.
+
+Tom: QA environment isn't provisioned yet. I'll own that.
+
+Priya: Ok, three impediments captured. Thanks everyone. We'll run the extraction now and review the backlog in Jira tomorrow.

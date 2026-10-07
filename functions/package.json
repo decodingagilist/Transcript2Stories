@@ -1,0 +1,10 @@
+{
+  "name": "functions",
+  "engines": { "node": "20" },
+  "main": "src/index.js",
+  "dependencies": {
+    "firebase-functions": "^6",
+    "firebase-admin": "^12",
+    "groq-sdk": "^0.9"
+  }
+}
