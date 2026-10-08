@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Tool/plugin metadata
+.omc/
+
 # Environment variables (never commit real credentials)
 .env
 .env.*
