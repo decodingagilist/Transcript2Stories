@@ -1,55 +1,9 @@
 import Groq from 'groq-sdk';
 import type { Epic, Dependency, RaciItem, Impediment, Risk, ActionItem, Phase } from '../types';
 
-const SYSTEM_PROMPT = `You are an expert Agile coach and SAFe practitioner.
-Extract from the meeting transcript and return ONLY valid JSON matching this exact schema:
-{
-  "epics": [{
-    "id": "epic-1",
-    "title": "",
-    "description": "",
-    "sprint": 1,
-    "size": "XL",
-    "points": 8,
-    "confidence": 0.9,
-    "features": [{
-      "id": "feat-1",
-      "title": "",
-      "description": "",
-      "sprint": 1,
-      "endSprint": 2,
-      "size": "M",
-      "points": 3,
-      "confidence": 0.85,
-      "plannedStartDate": null,
-      "stories": [{
-        "id": "story-1",
-        "asA": "",
-        "iWant": "",
-        "soThat": "",
-        "sprint": 1,
-        "size": "S",
-        "points": 2,
-        "confidence": 0.8,
-        "assignee": null,
-        "tags": []
-      }]
-    }]
-  }],
-  "dependencies": [{"from": "feat-2", "to": "feat-1", "type": "blocks", "reason": ""}],
-  "raci": [{"feature": "feat-1", "accountable": "", "responsible": [], "consulted": [], "informed": []}],
-  "impediments": [{"description": "", "owner": "", "status": "open"}],
-  "risks": [{"description": "", "impact": "High", "mitigation": "", "owner": ""}],
-  "actionItems": [{"description": "", "owner": "", "dueDate": null}],
-  "phases": [{"name": "", "startDate": null, "endDate": null, "type": "Custom"}],
-  "meetingMinutes": "Brief 3-5 sentence summary of what was discussed and decided."
-}
-T-shirt points: XS=1 S=2 M=3 L=5 XL=8. Velocity 40 pts/sprint. Confidence 0-1.
-For story assignees: extract team names/roles from transcript. Default precedence: Delivery Lead > Scrum Master > Product Owner.
-For story tags: identify from context e.g. Development, Test, Support, DevOps, Design.
-Extract all action items with owners. Identify all risks and blockers discussed.
-For plannedStartDate and phase dates, use YYYY-MM-DD format if mentioned, otherwise null.
-For phases: detect mentions of Code Lock, Code Freeze, Moratorium, Year End Shutdown, go-live blackout etc.`;
+const SYSTEM_PROMPT = `You are an expert SAFe Agile coach. Extract from the transcript and return ONLY valid JSON:
+{"epics":[{"id":"epic-1","title":"","description":"","sprint":1,"size":"XL","points":8,"confidence":0.9,"features":[{"id":"feat-1","title":"","description":"","sprint":1,"endSprint":2,"size":"M","points":3,"confidence":0.85,"plannedStartDate":null,"stories":[{"id":"story-1","asA":"","iWant":"","soThat":"","sprint":1,"size":"S","points":2,"confidence":0.8,"assignee":null,"tags":[],"moscow":"Must Have"}]}]}],"dependencies":[{"from":"feat-2","to":"feat-1","type":"blocks","reason":""}],"raci":[{"feature":"feat-1","accountable":"","responsible":[],"consulted":[],"informed":[]}],"impediments":[{"description":"","owner":"","status":"open"}],"risks":[{"description":"","impact":"High","mitigation":"","owner":""}],"actionItems":[{"description":"","owner":"","dueDate":null}],"phases":[{"name":"","startDate":null,"endDate":null,"type":"Custom"}],"meetingMinutes":"3-5 sentence summary."}
+Rules: XS=1 S=2 M=3 L=5 XL=8. Velocity 40pts/sprint. Confidence 0-1. Dates YYYY-MM-DD or null. Tags: Development/Test/Support/DevOps/Design. MoSCoW: Must Have/Should Have/Could Have/Won't Have. Phases: Code Lock/Freeze/Moratorium/Year End Shutdown/go-live blackout.`;
 
 export interface ExtractedBacklog {
   epics: Epic[];
@@ -69,7 +23,7 @@ export async function extractBacklog(transcript: string): Promise<ExtractedBackl
   });
 
   const response = await groq.chat.completions.create({
-    model: 'openai/gpt-oss-20b',
+    model: 'llama-3.3-70b-versatile',
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
       { role: 'user', content: transcript },
@@ -117,7 +71,7 @@ export async function askAboutTranscript(transcript: string, question: string): 
   });
 
   const response = await groq.chat.completions.create({
-    model: 'openai/gpt-oss-20b',
+    model: 'llama-3.3-70b-versatile',
     messages: [
       {
         role: 'system',
