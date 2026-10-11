@@ -1,42 +1,89 @@
-Loyalty App CRM Kickoff — 8 October 2026
-Participants: Sarah (Product Owner), Marcus (Tech Lead), Priya (Scrum Master), James (Dev), Leila (Dev), Tom (QA)
+NovaPay Embedded Finance Platform — Programme Kickoff
+Date: 13 October 2026
+Participants: Alex (Delivery Lead), Sophia (Product Owner), Marcus (Tech Lead), Liana (Scrum Master), James (Dev), Leila (Dev), Wei (Dev), Tom (QA), Nina (Business Analyst), Derek (DevOps)
 
-Sarah: Thanks everyone for joining. Today we're kicking off the Loyalty App CRM integration. Our goal is to build a points-based loyalty system that integrates with the existing CRM so that member activity drives points automatically.
+Alex: Morning everyone. Welcome to the NovaPay Embedded Finance Platform programme kickoff. Today we scope the full backlog, assign responsibilities, flag risks and confirm our sprint plan for the next ten weeks. We have a hard regulatory go-live deadline of 14 December 2026, so we need to be precise.
 
-Marcus: From a technical standpoint I see three major areas. First, we need a Member Registration service — sign-up flow, profile management, tier assignment. Second, a Points Engine that listens to CRM events and awards points based on configurable rules. Third, a Rewards Catalogue where members can browse and redeem.
+Sophia: I'll walk through the three epics we've committed to the board. Epic one is Customer Onboarding — KYC verification, account creation and tiered access. Epic two is Payment Rails — domestic transfers, international SWIFT, and direct debit mandates. Epic three is the Analytics and Compliance Hub — transaction monitoring, AML screening, and the regulatory reporting module.
 
-Priya: How big is Member Registration?
+Alex: Let me capture participants and assign teams before we dive in. James and Leila, you're on the Onboarding squad. Wei and Derek cover Payment Rails backend and infra. Tom handles QA across all epics. Nina, you own business analysis and UAT coordination.
 
-Marcus: It's XL — probably 8 points. We have identity verification, duplicate detection, the tier logic (Bronze, Silver, Gold), and we need to sync back to the CRM. I'd put confidence at 0.9.
+Marcus: Quick sizing pass before stories. Customer Onboarding is XL — I'd say 13 points. Confidence 0.8 — the biometric KYC vendor API is still being negotiated but we have a fallback. Payment Rails is XL, 13 points, confidence 0.85 — SWIFT integration is well-understood. Analytics Hub is L, 8 points, confidence 0.65 — the regulatory report schema was just updated in August and we haven't validated it fully.
 
-Sarah: Points Engine is the heart of the system. Members earn points for purchases, referrals, and social actions. The rules engine needs to be configurable without a code deploy. I'd call that an XL too — 8 points — but confidence is lower, maybe 0.75, because the rules DSL is still being designed.
+Liana: Let's go feature by feature. First feature under Onboarding: KYC Verification Service.
 
-James: Rewards Catalogue feels like an L to me — 5 points. Browse, search, filter by tier. Redemption flow is separate.
+Sophia: KYC Verification is the gatekeeper for everything else. Must Have. Size M, 5 points, confidence 0.80. Sprint 1.
 
-Leila: Redemption Flow is M — 3 points. Point deduction, confirmation email, voucher generation. High confidence, 0.85.
+James: User stories for KYC: "As a new applicant I want to submit identity documents so that my account can be verified." "As a compliance officer I want to review flagged submissions so that I can approve or reject manually." "As a system I want to retry failed biometric checks so that transient API errors don't block customers."
 
-Marcus: Important dependency: the Points Engine cannot go live until Member Registration is complete. It needs member IDs and tier data.
+Leila: Tags for KYC stories: Development, Compliance.
 
-Tom: We should also track impediments. We don't have the CRM API credentials yet — that's blocking James and Leila's integration work. Owner is Sarah.
+Marcus: Feature two under Onboarding: Account Creation and Profile Management. Must Have. Size M, 5 points, confidence 0.90. Sprint 1. Depends on KYC Verification — you cannot create an account until KYC passes.
 
-Sarah: Confirmed. I'll chase the CRM vendor today.
+Nina: Stories: "As a verified applicant I want to complete my profile so that I can access my account." "As an admin I want to assign account tiers so that product access is controlled." Tags: Development, Design.
 
-Priya: Sprint planning: let's put Member Registration in Sprint 1, Points Engine in Sprint 2, Rewards Catalogue and Redemption Flow in Sprint 3.
+Sophia: Feature three: Tiered Access Control. Should Have. Size S, 3 points, confidence 0.85. Sprint 2. Depends on Account Creation.
 
-Marcus: RACI for Member Registration: Sarah is Accountable, James and Leila are Responsible, Marcus is Consulted, Tom is Informed.
+James: Stories: "As a Bronze member I want to see only the features I'm entitled to so that I'm not confused by unavailable options." "As a Gold member I want priority support access so that my issues are resolved faster." Tags: Development, Design.
 
-Sarah: For Points Engine: I'm Accountable, Marcus and James Responsible, Priya Consulted, Tom and Leila Informed.
+Liana: Moving to Payment Rails. Feature four: Domestic Transfers. Must Have. Size L, 8 points, confidence 0.90. Sprint 2. Depends on Account Creation — you need a funded account to send money.
 
-Priya: Any other stories to call out?
+Wei: Stories: "As a customer I want to send money to any domestic account so that I can pay bills and people." "As a customer I want to schedule recurring transfers so that regular payments happen automatically." "As a customer I want to see a real-time debit confirmation so that I know my payment succeeded." Tags: Development, DevOps.
 
-Leila: Under Member Registration we need: profile edit page, password reset, email verification. Under Points Engine: transaction history view, points balance widget, admin rules editor. Under Rewards Catalogue: tier-gated rewards display, search/filter, wishlist.
+Marcus: Feature five: International SWIFT Transfers. Should Have. Size L, 8 points, confidence 0.75. Sprint 3. Depends on Domestic Transfers — the same payment orchestration layer is shared.
 
-Sarah: Great. Let's also add a Sprint 4 item — Analytics Dashboard. High-level, probably XL, low confidence 0.6 — we haven't scoped it yet. And Sprint 5 for Mobile Push Notifications, M size, medium confidence 0.7.
+Wei: Stories: "As a customer I want to send money internationally using SWIFT so that I can pay overseas suppliers." "As a customer I want to see live FX rates before confirming so that I know the exact cost." Tags: Development, DevOps, Compliance.
 
-Priya: Any more impediments?
+Sophia: Feature six: Direct Debit Mandate Management. Could Have. Size M, 5 points, confidence 0.70. Sprint 3. No hard dependencies but uses the same payment ledger.
 
-Marcus: Design tokens from the brand team aren't finalised — that's blocking the UI components. I own that one.
+Leila: Stories: "As a customer I want to set up a direct debit mandate so that service providers can collect payments." "As a customer I want to cancel a mandate so that I stay in control." Tags: Development, Support.
 
-Tom: QA environment isn't provisioned yet. I'll own that.
+Alex: Good. Now Analytics Hub. Feature seven: Transaction Monitoring Dashboard. Must Have. Size M, 5 points, confidence 0.80. Sprint 3. Depends on Domestic Transfers — no data to monitor without live transactions.
 
-Priya: Ok, three impediments captured. Thanks everyone. We'll run the extraction now and review the backlog in Jira tomorrow.
+Nina: Stories: "As a compliance analyst I want to see all transactions in real time so that I can spot anomalies." "As a compliance analyst I want to filter by customer, amount and date range so that investigations are efficient." Tags: Development, Compliance, Test.
+
+Sophia: Feature eight: AML Screening Engine. Must Have. Size L, 8 points, confidence 0.70. Sprint 4. Depends on Transaction Monitoring — the screening runs over the monitored transaction stream. This is on the critical path.
+
+Marcus: Stories: "As the system I want to screen every transaction against sanction lists so that we meet AML obligations." "As a compliance officer I want to receive alerts for high-risk transactions so that I can act immediately." Tags: Compliance, Development, Test.
+
+Wei: Feature nine: Regulatory Reporting Module. Should Have. Size M, 5 points, confidence 0.65. Sprint 4. Depends on AML Screening — reports aggregate AML findings.
+
+Nina: Stories: "As a compliance manager I want to generate monthly regulatory reports so that we meet filing deadlines." "As an auditor I want to export reports as PDF and CSV so that I can submit them to the regulator." Tags: Compliance, Test.
+
+Liana: Feature ten: Analytics Self-Serve Dashboard. Could Have. Size S, 3 points, confidence 0.60. Sprint 5. No hard dependency — purely additive.
+
+James: Stories: "As a product manager I want to see customer acquisition and activation funnels so that I can measure conversion." "As a delivery lead I want to see sprint velocity trends so that I can forecast completion." Tags: Development, Test.
+
+Alex: Okay let's now capture risks.
+
+Tom: Risk one: Biometric KYC vendor API is in beta — risk of breaking changes. High impact. Mitigation: pin to a specific API version and add a contract test suite. Owner: Marcus.
+
+Sophia: Risk two: SWIFT integration certification takes 4–6 weeks with the banking partner. High impact. Mitigation: submit test harness for certification by end of Sprint 1. Owner: Wei.
+
+Nina: Risk three: Regulatory report schema updated in August — hasn't been fully validated against the new templates. Medium impact. Mitigation: Nina to run schema validation workshop with compliance team by Sprint 2. Owner: Nina.
+
+Alex: Action items. First: Sophia to confirm go-live date with board by 20 October. Second: Marcus to finalise KYC vendor contract by 17 October. Third: Wei to submit SWIFT certification package by end of Sprint 1, 27 October. Fourth: Nina to run schema validation workshop by 10 November. Fifth: Tom to provision QA environment this week by 16 October. Sixth: Derek to set up blue-green deployment pipeline by Sprint 2.
+
+Liana: RACI summary. KYC Verification: Sophia Accountable, James and Leila Responsible, Marcus Consulted, Tom Informed. Domestic Transfers: Sophia Accountable, Wei Responsible, Marcus Consulted, Tom and Nina Informed. AML Screening: Alex Accountable, Marcus and Wei Responsible, Nina Consulted, Tom Informed. Regulatory Reporting: Alex Accountable, Nina Responsible, Sophia Consulted, Wei Informed.
+
+Alex: Leave to note. I'm out 3–7 November for SAFe PI Planning in Sydney. Sophia is on annual leave 10–14 November. Tom has a training course 17–18 November.
+
+Marcus: One more dependency to capture explicitly: AML Screening depends on Transaction Monitoring, and Regulatory Reporting depends on AML Screening. That chain — Domestic Transfers to Transaction Monitoring to AML Screening to Regulatory Reporting — is our critical path.
+
+Sophia: Vote of confidence? I'm green — the scope is clear.
+
+Marcus: Yellow — I'm concerned about the KYC API risk but manageable with the mitigation.
+
+James: Green.
+
+Leila: Green.
+
+Wei: Yellow — SWIFT certification timeline is tight.
+
+Tom: Green — QA plan is solid.
+
+Nina: Green — requirements are well documented.
+
+Derek: Green — infrastructure is straightforward.
+
+Liana: Good. Seven greens, two yellows. We'll track the yellows as high-priority risks. Let's open Sprint 1 in Jira and run the extraction. Meeting adjourned.
