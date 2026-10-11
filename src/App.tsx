@@ -164,18 +164,26 @@ export default function App() {
 
       <footer className="border-t border-border bg-card/80 backdrop-blur-sm mt-12">
         <div className="w-[80%] max-w-none mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>
-            Built by{' '}
+          <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>Built by</span>
             <a
               href="https://agileaiarnab.lovable.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-primary hover:underline underline-offset-2"
+              className="font-semibold text-primary hover:text-primary/80 underline underline-offset-2 decoration-dotted hover:decoration-solid transition-all"
+              title="View Arnab's Agile AI portfolio"
             >
-              Arnab Chakrabortty
+              Arnab Chakrabortty ↗
             </a>
+            <span className="flex flex-wrap gap-1">
+              {['SAFe Delivery Lead', 'Google AI Professional', 'IBM RAG & Agentic AI'].map(cert => (
+                <span key={cert} className="text-[10px] px-1.5 py-0.5 rounded border border-border bg-muted/40 text-muted-foreground font-medium tracking-wide">
+                  {cert}
+                </span>
+              ))}
+            </span>
           </span>
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5 shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
             CeremonyIQ · SAFe Backlog Generator
           </span>

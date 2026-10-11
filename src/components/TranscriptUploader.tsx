@@ -118,7 +118,13 @@ export function TranscriptUploader({ onSubmit, loading, error }: Props) {
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-foreground mb-2">CeremonyIQ</h1>
-        <p className="text-muted-foreground">Paste or drop a meeting transcript — get a full SAFe backlog in seconds.</p>
+        <div className="space-y-3 mb-1">
+          <p className="text-sm font-semibold text-foreground">🎯 Stop spending hours on ceremony admin.</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            CeremonyIQ turns your PI Planning or sprint ceremony transcript into a production-ready SAFe backlog — complete with Epics, Features, User Stories, MoSCoW priorities, dependency graph, release timeline, RACI matrix, and team capacity planning.
+          </p>
+          <p className="text-sm font-medium text-foreground">📋 Paste your transcript. Review your backlog. Ship faster.</p>
+        </div>
       </div>
 
       <div className="space-y-2">
