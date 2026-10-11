@@ -165,7 +165,7 @@ export default function App() {
       <footer className="border-t border-border bg-card/80 backdrop-blur-sm mt-12">
         <div className="w-[80%] max-w-none mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
           <span>
-            Crafted with <span className="text-red-400">♥</span> by{' '}
+            Built by{' '}
             <a
               href="https://agileaiarnab.lovable.app/"
               target="_blank"
