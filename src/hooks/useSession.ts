@@ -2,14 +2,14 @@ import { useState, useCallback } from 'react';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { extractBacklog } from '../lib/groq';
-import type { Session, Epic, Feature, Story } from '../types';
+import type { Session, Epic, Feature, Story, Stakeholder } from '../types';
 
 export function useSession() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const startExtraction = useCallback(async (transcript: string, title: string) => {
+  const startExtraction = useCallback(async (transcript: string, title: string, stakeholders: Stakeholder[] = []) => {
     setLoading(true);
     setError(null);
     try {
@@ -25,7 +25,6 @@ export function useSession() {
 
       const extracted = await extractBacklog(transcript);
 
-      // Write to Firestore
       const batch: Promise<void>[] = [];
       extracted.epics?.forEach(({ features, ...epicData }) => {
         const epicRef = doc(collection(sessionRef, 'epics'), epicData.id);
@@ -47,8 +46,14 @@ export function useSession() {
       extracted.impediments?.forEach((imp, i) =>
         batch.push(setDoc(doc(collection(sessionRef, 'impediments'), `imp-${i}`), imp))
       );
+      extracted.risks?.forEach((risk, i) =>
+        batch.push(setDoc(doc(collection(sessionRef, 'risks'), `risk-${i}`), risk))
+      );
+      extracted.actionItems?.forEach((ai, i) =>
+        batch.push(setDoc(doc(collection(sessionRef, 'actionItems'), `ai-${i}`), ai))
+      );
       await Promise.all(batch);
-      await setDoc(sessionRef, { status: 'complete' }, { merge: true });
+      await setDoc(sessionRef, { status: 'complete', meetingMinutes: extracted.meetingMinutes ?? '' }, { merge: true });
 
       setSession({
         id: sessionId,
@@ -60,6 +65,12 @@ export function useSession() {
         dependencies: extracted.dependencies ?? [],
         raci: extracted.raci ?? [],
         impediments: extracted.impediments ?? [],
+        risks: extracted.risks ?? [],
+        actionItems: extracted.actionItems ?? [],
+        meetingMinutes: extracted.meetingMinutes ?? '',
+        stakeholders,
+        phases: extracted.phases ?? [],
+        votes: [],
       });
       return true;
     } catch (e: unknown) {
