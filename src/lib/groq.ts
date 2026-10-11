@@ -23,7 +23,7 @@ export async function extractBacklog(transcript: string): Promise<ExtractedBackl
   });
 
   const response = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: 'openai/gpt-oss-20b',
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
       { role: 'user', content: transcript },
@@ -71,7 +71,7 @@ export async function askAboutTranscript(transcript: string, question: string): 
   });
 
   const response = await groq.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
+    model: 'openai/gpt-oss-20b',
     messages: [
       {
         role: 'system',
