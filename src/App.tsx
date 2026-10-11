@@ -161,6 +161,26 @@ export default function App() {
       </main>
 
       <CeremonyIQAssistant session={session} onActionItemToggle={handleActionItemToggle} />
+
+      <footer className="border-t border-border bg-card/80 backdrop-blur-sm mt-12">
+        <div className="w-[80%] max-w-none mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span>
+            Crafted with <span className="text-red-400">♥</span> by{' '}
+            <a
+              href="https://agileaiarnab.lovable.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary hover:underline underline-offset-2"
+            >
+              Arnab Chakrabortty
+            </a>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+            CeremonyIQ · SAFe Backlog Generator
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }
